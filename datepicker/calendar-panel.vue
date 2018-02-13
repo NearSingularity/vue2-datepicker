@@ -19,32 +19,33 @@
           </tr>
         </thead>
         <tbody>
-          <tr v-for="row in dates">
-            <td v-for="cell in row" :title="cell.title" :class="getDateClasses(cell)" @click="selectDate(cell)">{{cell.day}}</td>
+          <tr :key="i" v-for="(row, i) in dates">
+            <td :key="j" v-for="(cell, j) in row" :title="cell.title" :class="getDateClasses(cell)" @click="selectDate(cell)">{{cell.day}}</td>
           </tr>
         </tbody>
       </table>
       <div class="mx-calendar-year" v-show="currentPanel === 'years'">
-        <a v-for="year in years" @click="selectYear(year)" :class="{'current': currentYear === year}">{{year}}</a>
+        <a :key="i" v-for="(year, i) in years" @click="selectYear(year)" :class="{'current': currentYear === year}">{{year}}</a>
       </div>
       <div class="mx-calendar-month" v-show="currentPanel === 'months'">
-        <a v-for="(month, index) in months" @click="selectMonth(index)" :class="{'current': currentMonth === index}">{{month}}</a>
+        <a :key="index" v-for="(month, index) in months" @click="selectMonth(index)" :class="{'current': currentMonth === index}">{{month}}</a>
       </div>
       <div class="mx-calendar-time"
         v-show="currentPanel === 'time'" >
         <div v-if="timeSelectOptions.length" class="mx-time-list-wrapper">
           <ul class="mx-time-list">
             <li class="mx-time-item mx-time-picker-item"
+              :key="i"
               :class="getTimeClasses(item.value.hours * 60 + item.value.minutes, -1)"
               @click="pickTime(item.value)"
-              v-for="item in timeSelectOptions">
+              v-for="(item, i) in timeSelectOptions">
               {{item.label}}
             </li>
           </ul>
         </div>
-        <div v-else class="mx-time-list-wrapper" 
+        <div v-else class="mx-time-list-wrapper"
           :style="{width: 100 / times.length + '%' }"
-          v-for="(time, index) in times" 
+          v-for="(time, index) in times"
           :key="index">
           <ul class="mx-time-list">
             <li class="mx-time-item"
@@ -149,7 +150,7 @@ export default {
             value,
             label: formatTime(value, this.timeType)
           })
-        }        
+        }
       }
 
       return result
@@ -434,7 +435,7 @@ export default {
       this.now = now
       if (this.value) {
         this.$emit('input', now)
-        this.$emit('select', true)        
+        this.$emit('select', true)
       }
       this.currentPanel = 'months'
     },
@@ -444,7 +445,7 @@ export default {
       this.now = now
       if (this.value) {
         this.$emit('input', now)
-        this.$emit('select', true)       
+        this.$emit('select', true)
       }
       this.currentPanel = 'date'
     },
@@ -474,7 +475,7 @@ export default {
       date.setHours(value.hours, value.minutes, 0)
       this.now = date
       this.$emit('input', date)
-      this.$emit('select')      
+      this.$emit('select')
     }
   }
 }

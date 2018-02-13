@@ -6,6 +6,7 @@
     <input readonly
           name="date"
           :disabled="disabled"
+          :id="inputId"
           :class="inputClass"
           :value="text"
           :placeholder="innerPlaceholder"
@@ -14,8 +15,8 @@
           @mouseleave="hoverIcon"
           @click="togglePopup"
           @mousedown="$event.preventDefault()">
-    <i class="mx-input-icon" 
-      :class="showCloseIcon ? 'mx-input-icon__close' : 'mx-input-icon__calendar'" 
+    <i class="icon"
+      :class="showCloseIcon ? 'icon-close' : 'icon-calendar'"
       @mouseenter="hoverIcon"
       @mouseleave="hoverIcon"
       @click="clickIcon" ></i>
@@ -25,14 +26,14 @@
          ref="calendar"
          v-show="showPopup">
 
-      <calendar-panel 
+      <calendar-panel
         v-if="!range"
         v-model="currentValue"
         @select="selectDate"
         :show="showPopup"></calendar-panel>
       <div v-else style="overflow:hidden" >
         <div class="mx-datepicker-top" v-if="ranges.length">
-          <span v-for="range in ranges" @click="selectRange(range)">{{range.text}}</span>
+          <span :key="i" v-for="(range, i) in ranges" @click="selectRange(range)">{{range.text}}</span>
         </div>
         <calendar-panel style="width:50%;box-shadow:1px 0 rgba(0, 0, 0, .1)"
                         v-model="currentValue[0]"
@@ -117,6 +118,10 @@ export default {
     confirm: {
       type: Boolean,
       default: false
+    },
+    inputId: {
+      type: String,
+      default: ''
     },
     inputClass: {
       type: String,
@@ -411,7 +416,7 @@ export default {
   box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075);
   &:disabled, &.disabled {
     opacity: 0.7;
-    cursor: not-allowed;    
+    cursor: not-allowed;
   }
 }
 
