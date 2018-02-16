@@ -1,6 +1,6 @@
 <template>
   <div class="mx-datepicker"
-       :class="{'disabled': disabled}"
+       :class="{'disabled': disabled, [wrapperClass]: true}"
        :style="{'width': width + 'px','min-width':range ? (type === 'datetime' ? '320px' : '210px') : '140px'}"
        v-clickoutside="closePopup">
     <input readonly
@@ -118,6 +118,10 @@ export default {
     confirm: {
       type: Boolean,
       default: false
+    },
+    wrapperClass: {
+      type: String,
+      default: ''
     },
     inputId: {
       type: String,
